@@ -33,10 +33,14 @@ Any missing required variable causes the app to exit.
 
 ### Getting the WhatsApp group JID
 
-The group JID is the numeric chat id with `@g.us` appended. The easiest way to
-find it is to enable the bridge and check the `Message forwarded` log lines,
-which print the `remoteJid`. Alternatively, on the linked device, open the
-group and note its id.
+On startup, once connected, the bridge logs every group it participates in:
+
+```
+"msg":"Group","jid":"120363012345678901@g.us","name":"My Group","isConfigured":true
+```
+
+Find your group by name and copy its `jid` into `WHATSAPP_GROUP_JID`. The line
+with `"isConfigured":true` marks the currently configured group.
 
 ## Setup
 

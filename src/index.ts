@@ -101,6 +101,31 @@ async function forwardMessage(message: any) {
 	);
 }
 
+async function logGroups(sock: any) {
+	try {
+		const groups = await sock.groupFetchAllParticipating();
+
+		logger.info(
+			{
+				count: Object.keys(groups).length,
+				configured: WHATSAPP_GROUP_JID,
+			},
+			"Participating WhatsApp groups",
+		);
+
+		for (const [jid, group] of Object.entries(groups) as any) {
+			const isConfigured = jid === WHATSAPP_GROUP_JID;
+
+			logger.info(
+				{ jid, name: group.subject, isConfigured },
+				"Group",
+			);
+		}
+	} catch (error) {
+		logger.error({ error }, "Failed to list WhatsApp groups");
+	}
+}
+
 async function startWhatsApp(): Promise<void> {
 	const { state, saveCreds } = await useMultiFileAuthState(AUTH_DIR);
 
@@ -167,6 +192,8 @@ async function startWhatsApp(): Promise<void> {
 
 		if (connection === "open") {
 			logger.info("Connected to WhatsApp");
+
+			await logGroups(sock);
 		}
 	});
 
