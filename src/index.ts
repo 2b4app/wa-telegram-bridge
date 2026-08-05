@@ -106,7 +106,10 @@ async function startWhatsApp(): Promise<void> {
 
 	const sock = makeWASocket({
 		auth: state,
-		browser: Browsers.macOS("Desktop"),
+		// The browser name doubles as `companion_platform_display` in the
+		// pairing-code request, which WhatsApp validates against a fixed set
+		// (Chrome/Edge/Firefox/IE/Opera/Safari) — "Desktop" gets rejected.
+		browser: Browsers.macOS("Chrome"),
 		logger,
 		markOnlineOnConnect: false,
 		syncFullHistory: false,
