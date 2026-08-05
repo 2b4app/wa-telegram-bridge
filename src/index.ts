@@ -114,6 +114,27 @@ async function startWhatsApp(): Promise<void> {
 
 	sock.ev.on("creds.update", saveCreds);
 
+	if (!state.creds.registered) {
+		// `connection: "open"` only fires after a successful login, so a fresh
+		// (unregistered) socket never reaches the pairing code logic there.
+		// Wait for the registration handshake, then request the code once.
+		setTimeout(async () => {
+			try {
+				const phone = WHATSAPP_PHONE_NUMBER.replace(/\D/g, "");
+
+				const code = await sock.requestPairingCode(phone);
+
+				logger.info(`WhatsApp pairing code: ${code}`);
+
+				logger.info(
+					"On your phone: WhatsApp → Settings → Linked Devices → Link a device → Link with phone number",
+				);
+			} catch (error) {
+				logger.error({ error }, "Failed to request WhatsApp pairing code");
+			}
+		}, 6000);
+	}
+
 	sock.ev.on("connection.update", async (update) => {
 		const { connection, lastDisconnect } = update;
 
@@ -143,18 +164,6 @@ async function startWhatsApp(): Promise<void> {
 
 		if (connection === "open") {
 			logger.info("Connected to WhatsApp");
-
-			if (!state.creds.registered) {
-				const phone = WHATSAPP_PHONE_NUMBER.replace(/\D/g, "");
-
-				const code = await sock.requestPairingCode(phone);
-
-				logger.info(`WhatsApp pairing code: ${code}`);
-
-				logger.info(
-					"On your phone: WhatsApp → Settings → Linked Devices → Link a device → Link with phone number",
-				);
-			}
 		}
 	});
 
