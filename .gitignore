@@ -1,0 +1,12 @@
+node_modules/
+
+# environment
+.env
+.env.local
+
+# logs
+*.log
+npm-debug.log*
+
+# WhatsApp auth state (volume-mounted to /data/auth in Docker)
+/data/
