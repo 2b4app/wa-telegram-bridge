@@ -2,7 +2,7 @@
 
 One-way message bridge from a WhatsApp group to a Telegram chat. When a member
 posts a text or media message in the configured WhatsApp group, the bridge
-forwards it to a Telegram chat as `[WhatsApp] <name>`.
+forwards it to a Telegram chat as `<name>`.
 
 ## How it works
 
