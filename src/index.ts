@@ -200,11 +200,6 @@ async function startWhatsApp(): Promise<void> {
 	sock.ev.on("messages.upsert", async ({ messages }) => {
 		for (const message of messages) {
 			try {
-				// Ignore messages sent by the bridge's own WhatsApp account.
-				if (message.key.fromMe) {
-					continue;
-				}
-
 				// Only process the configured group.
 				if (message.key.remoteJid !== WHATSAPP_GROUP_JID) {
 					continue;
