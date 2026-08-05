@@ -67,7 +67,7 @@ async function forwardMessage(message: any) {
 	if (text && !content.imageMessage && !content.videoMessage) {
 		await telegram.api.sendMessage(
 			TELEGRAM_CHAT_ID,
-			`${name}:\n${text}`,
+			text,
 		);
 
 		return;
@@ -81,11 +81,7 @@ async function forwardMessage(message: any) {
 			TELEGRAM_CHAT_ID,
 			new InputFile(image, "image.jpg"),
 			{
-				caption:
-					`${name}` +
-					(content.imageMessage.caption
-						? `:\n${content.imageMessage.caption}`
-						: ""),
+				caption: content.imageMessage.caption,
 			},
 		);
 
