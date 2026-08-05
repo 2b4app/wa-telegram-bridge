@@ -1,0 +1,21 @@
+services:
+  bridge:
+    build: .
+    restart: unless-stopped
+
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
+
+      # Full WhatsApp JID, e.g. 120363012345678901@g.us
+      WHATSAPP_GROUP_JID: ${WHATSAPP_GROUP_JID}
+
+      # International format, digits only.
+      # Example: 380501234567
+      WHATSAPP_PHONE_NUMBER: ${WHATSAPP_PHONE_NUMBER}
+
+    volumes:
+      - whatsapp-auth:/data/auth
+
+volumes:
+  whatsapp-auth:

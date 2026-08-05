@@ -1,0 +1,14 @@
+{
+	"name": "wa-telegram-bridge",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"start": "node --import=tsx src/index.ts"
+	},
+	"dependencies": {
+		"@whiskeysockets/baileys": "6.7.21",
+		"grammy": "^1.45.0",
+		"pino": "^9.6.0",
+		"tsx": "^4.20.3"
+	}
+}
