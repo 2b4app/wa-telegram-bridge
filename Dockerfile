@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends git \
+	&& apt-get install -y --no-install-recommends git openssh-client \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN npm install
